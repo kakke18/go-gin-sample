@@ -2,23 +2,29 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"go-gin-sample/dao"
+	"github.com/gorilla/rpc/v2"
+	"github.com/gorilla/rpc/v2/json2"
+	"go-gin-sample/handler"
+	"net/http"
 )
 
 func main() {
 	router := gin.Default()
-	router.GET("/members", func(c *gin.Context){
-		memberDao := dao.NewMemberJsonDao()
-		results, err := memberDao.Get()
+	http.Handle("/", router)
 
-		var message interface{}
-		if err != nil {
-			message = err
-		} else {
-			message = results
-		}
+	s := rpc.NewServer()
+	s.RegisterCodec(json2.NewCodec(), "application/json")
+	_ = s.RegisterService(&handler.App{}, "")
+	r := router.Group("/")
+	route(r, s)
+	_ = http.ListenAndServe(":8080", nil)
+}
 
-		c.JSON(200, gin.H{ "message": message})
+func route(r *gin.RouterGroup, s *rpc.Server) {
+	r.GET("/", func(c *gin.Context) {
+		c.String(http.StatusOK, "this is app")
 	})
-	_ = router.Run()
+	r.POST("/jsonrpc", func(g *gin.Context) {
+		s.ServeHTTP(g.Writer, g.Request)
+	})
 }

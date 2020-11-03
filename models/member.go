@@ -3,8 +3,8 @@ package models
 import "time"
 
 type Member struct {
-	Key          string
-	Name         string
-	EmailAddress string
-	CreatedAt    time.Time
+	Key          string    `json:"key"`
+	Name         string    `json:"name"`
+	EmailAddress string    `json:"email_address"`
+	CreatedAt    time.Time `json:"created_at"`
 }
