@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/rpc/v2"
 	"github.com/gorilla/rpc/v2/json2"
 	"go-gin-sample/handler"
+	"google.golang.org/appengine"
 	"net/http"
 )
 
@@ -17,7 +18,10 @@ func main() {
 	_ = s.RegisterService(&handler.App{}, "")
 	r := router.Group("/")
 	route(r, s)
-	_ = http.ListenAndServe(":8080", nil)
+	appengine.Main()
+
+	//ローカル実行する際に必要
+	//_ = http.ListenAndServe(":8080", nil)
 }
 
 func route(r *gin.RouterGroup, s *rpc.Server) {
