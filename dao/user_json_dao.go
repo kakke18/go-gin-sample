@@ -39,7 +39,7 @@ func NewUserJsonDao() *UserJsonDao {
 	return &UserJsonDao{}
 }
 
-func (dao *UserJsonDao) Get() (*[]models.User, error) {
+func (dao *UserJsonDao) List() (*[]models.User, error) {
 	records, err := getRecords()
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (dao *UserJsonDao) Get() (*[]models.User, error) {
 	return &results, nil
 }
 
-func (dao *UserJsonDao) GetById(id string) (*models.User, error) {
+func (dao *UserJsonDao) Get(id string) (*models.User, error) {
 	records, err := getRecords()
 	if err != nil {
 		return nil, err
