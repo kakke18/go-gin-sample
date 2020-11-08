@@ -8,22 +8,22 @@ import (
 	"time"
 )
 
-const sourceFile = "json/member.json"
+const sourceFile = "json/user.json"
 
-type MemberRecord struct {
+type UserRecord struct {
 	Key          string
 	Name         string
 	EmailAddress string
 	CreatedAt    string
 }
 
-func (r *MemberRecord) toEntity() (*models.Member, error) {
+func (r *UserRecord) toEntity() (*models.User, error) {
 	createdAt, err := time.Parse("2006-01-02 15:04:05", r.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
 
-	return &models.Member{
+	return &models.User{
 		Key:          r.Key,
 		Name:         r.Name,
 		EmailAddress: r.EmailAddress,
@@ -31,21 +31,21 @@ func (r *MemberRecord) toEntity() (*models.Member, error) {
 	}, nil
 }
 
-type MemberJsonDao struct {
+type UserJsonDao struct {
 	Source string
 }
 
-func NewMemberJsonDao() *MemberJsonDao {
-	return &MemberJsonDao{}
+func NewUserJsonDao() *UserJsonDao {
+	return &UserJsonDao{}
 }
 
-func (dao *MemberJsonDao) Get() (*[]models.Member, error) {
+func (dao *UserJsonDao) Get() (*[]models.User, error) {
 	records, err := getRecords()
 	if err != nil {
 		return nil, err
 	}
 
-	var results []models.Member
+	var results []models.User
 	for _, record := range *records {
 		entity, err := record.toEntity()
 		if err != nil {
@@ -57,7 +57,7 @@ func (dao *MemberJsonDao) Get() (*[]models.Member, error) {
 	return &results, nil
 }
 
-func (dao *MemberJsonDao) GetById(id string) (*models.Member, error) {
+func (dao *UserJsonDao) GetById(id string) (*models.User, error) {
 	records, err := getRecords()
 	if err != nil {
 		return nil, err
@@ -65,24 +65,24 @@ func (dao *MemberJsonDao) GetById(id string) (*models.Member, error) {
 
 	for _, record := range *records {
 		if record.Key == id {
-			member, err := record.toEntity()
+			user, err := record.toEntity()
 			if err != nil {
 				return nil, err
 			}
-			return member, nil
+			return user, nil
 		}
 	}
 
 	return nil, fmt.Errorf("No such entity")
 }
 
-func getRecords() (*[]MemberRecord, error) {
+func getRecords() (*[]UserRecord, error) {
 	fileData, err := ioutil.ReadFile(sourceFile)
 	if err != nil {
 		return nil, err
 	}
 
-	var records []MemberRecord
+	var records []UserRecord
 	err = json.Unmarshal(fileData, &records)
 	if err != nil {
 		return nil, err

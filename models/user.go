@@ -2,7 +2,7 @@ package models
 
 import "time"
 
-type Member struct {
+type User struct {
 	Key          string    `json:"key"`
 	Name         string    `json:"name"`
 	EmailAddress string    `json:"email_address"`

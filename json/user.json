@@ -1,0 +1,20 @@
+[
+  {
+    "key": "1",
+    "name": "user1",
+    "emailAddress": "user1@example.com",
+    "createdAt": "2020-10-01 00:00:00"
+  },
+  {
+    "key": "2",
+    "name": "user2",
+    "emailAddress": "user2@example.com",
+    "createdAt": "2020-10-01 00:00:00"
+  },
+  {
+    "key": "3",
+    "name": "user3",
+    "emailAddress": "user3@example.com",
+    "createdAt": "2020-10-01 00:00:00"
+  }
+]
